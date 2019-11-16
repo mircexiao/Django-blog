@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}blog titles{% endblock %}
+{% block content %}
+<div class="row text-center vertical-middle-sm">
+    <h1>My Blog</h1>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <ul>
+            {% for blog in blogs %}
+            <li><a href="{{blog.id}}"> {{blog.title}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-xs-6 col-md-4">
+        <h2>advertisement</h2>
+        <p><a href="www.baidu.com" >点击这里</a></p>
+    </div>
+    </div>
+{% endblock %}

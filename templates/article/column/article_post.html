@@ -1,0 +1,78 @@
+{% extends "article/base.html" %}
+{% load staticfiles %}
+{% block title %}
+article column
+{% endblock %}
+<link rel="stylesheet" href="{% static 'editor/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'editor/css/editormd.css' %}">
+{% block content %}
+<div style="margin-left:10px">
+    <form class="form-horizontal" action="." method="post">
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-2 text-right">
+                <span>标题:</span>
+            </div>
+            <div class="col-md-10 text-left">
+                {{ article_post_form.title }}
+            </div>
+        </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-2 text-left">
+                    <span>栏目:</span>
+                </div>
+                <div class="col-md-10 text-right">
+                    <select id="which_column">
+                        {% for column in article_columns %}
+                            <option value="{{ column.id }}">{{ column.column }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-2 text-right">
+                    <span>内容:</span>
+                </div>
+               <div id="editormd" class="col-md-10 text-left">
+                   <textaera style="display:none;" id="id_body"></textaera>
+               </div>
+            </div>
+        <div class="row">
+            <input type="button" class="btn btn-primary btn-lg" value="发布" onclicj="publish_article()">
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/layer.js' %}"></script>
+<script type="text/javascript">
+    function publish_article(){
+        var title=$("#id_title").val();
+        var column_id=$("#which_column").val();
+        var body=$("#id_body").val()
+        $.ajax({
+            url:"{% url 'article:article_post' %}",
+            type:"POST",
+            data:{"title":title,"body":body,"column_id":column_id},
+            success:function(e){
+                if(e=='1'){
+                    layer.msg("successful");
+                }else if(e=='2'){
+                    layer.msg("sorry");
+                }else{
+                    layer.msg("项目名称必须填写，不能为空");
+                }
+            }
+            })
+    }
+</script>
+    <script type="text/javascript" src="{% static 'editor/editormd.min.js' %}"></script>
+    <script type="text/javascript">
+    $(function(){
+        var editor =editormd("editormd",{
+            width:"100%",
+            height:640,
+            syncScrolling:"single",
+            path:"{% static 'editor/lib/' %}"
+        });
+    });
+    </script>
+{% endblock %}
