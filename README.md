@@ -1,5 +1,6 @@
 # Django-blog
 用Django搭建一个个人博客，目前该项目还在继续完善
+
 该博客由现有三个应用 blogs、account、article
 #### blogs
 该应用即为博客展示，目前仅只是简单的展示博客
