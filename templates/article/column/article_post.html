@@ -37,7 +37,7 @@ article column
                </div>
             </div>
         <div class="row">
-            <input type="button" class="btn btn-primary btn-lg" value="发布" onclicj="publish_article()">
+            <input type="button" class="btn btn-primary btn-lg" value="发布" onclick="publish_article()">
         </div>
     </form>
 </div>
@@ -64,7 +64,7 @@ article column
             })
     }
 </script>
-    <script type="text/javascript" src="{% static 'editor/editormd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'editor/editormd.js/editormd.min.js' %}"></script>
     <script type="text/javascript">
     $(function(){
         var editor =editormd("editormd",{

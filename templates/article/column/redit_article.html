@@ -56,5 +56,24 @@
             path:"{% static 'editor/lib/' %}",
         });
     });
+    function redit_article(){
+        var title=$("#id_title").val();
+        var column_id=$("#which_column").val();
+        var body=$("#id_body").val();
+        $.ajax({
+            url:"{% url 'article:redit_article' article.id %}",
+            type:"POST",
+            data:{"title":title,"body":body,"column_id":column_id},
+            success:function(e){
+                if (e==1){
+                    layer.msg("successful");
+                    location.href="{% url 'article:article_list' %}";
+                }
+                else{
+                    layer.msg("sorry");
+                }
+            },
+        });
+    }
     </script>
 {% endblock %}

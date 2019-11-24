@@ -20,7 +20,8 @@ class ArticlePost(models.Model):
     body=models.TextField()
     created=models.DateTimeField(default=timezone.now)
     updated=models.DateTimeField(auto_now=True)
-
+    def get_url_path(self):
+        return reverse("article:article_content",args=[self.id,self.slug])
     class Meta:
         ordering=("title",)
         index_together=(('id','slug'),)

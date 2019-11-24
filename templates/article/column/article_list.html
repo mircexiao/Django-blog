@@ -16,7 +16,7 @@
             <td>{{ forloop.counter }}</td>
             <td><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></td>
             <td>{{ article.column }}</td>
-            <td>--</td>
+            <td><a name="edit" href="{% url 'article:redit_article' article.id %}"><span class="glyphicon glyphicon-pencil"></span></a> </td>
         </tr>
         {% endfor %}
     </table>

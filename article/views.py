@@ -7,8 +7,10 @@ from django.views.decorators.http import require_POST
 from .forms import ArticlePostForm
 from .models import ArticleColumn,ArticlePost
 from .forms import ArticleColumnForm
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
-@login_required(login_url='account/login')
+
+@login_required(login_url='/account/login')
 @csrf_exempt
 def article_column(request):
     if request.method=="GET":
@@ -24,6 +26,7 @@ def article_column(request):
             ArticleColumn.objects.create(user=request.user,column=column_name)
             return HttpResponse('1')
 
+
 @login_required(login_url='account/login')
 @require_POST
 @csrf_exempt
@@ -35,6 +38,7 @@ def del_article_column(request):
         return HttpResponse("1")
     except:
         return HttpResponse("2")
+
 
 @login_required(login_url='/account/login')
 @csrf_exempt
@@ -60,15 +64,27 @@ def article_post(request):
                       {"article_post_form":article_post_form,
                        "article_columns":article_columns})
 
+
 @login_required(login_url="/account/login")
 def article_list(request):
-    articles=ArticlePost.objects.filter(author=request.user)
-    return render(request,"article/column/article_list.html",{"articles":articles})
+    articles_list=ArticlePost.objects.filter(author=request.user)
+    pagintor=Paginator(articles_list,2)
+    page=request.GET.get("page")
+    try:
+        current_page=pagintor.page(page)
+        articles=current_page.object_list
+    except PageNotAnInteger:
+        current_page=pagintor.page(1)
+        articles=current_page.object_list
+    except EmptyPage:
+        current_page=pagintor.page(pagintor.num_pages)
+        articles=current_page.object_list
+    return render(request,"article/column/article_list.html",{"articles":articles,"page":current_page})
 
 @login_required(login_url='/account/login')
 def article_detail(request,id,slug):
     article=get_object_or_404(ArticlePost,id=id,slug=slug)
-    return render(request,"article/column/article_detail.html",{{"article":article}})
+    return render(request,"article/column/article_detail.html",{"article":article})
 
 @login_required(login_url='/account/login')
 @require_POST
@@ -98,3 +114,13 @@ def redit_article(request,article_id):
                           "this_article_column":this_article_column,
                       }
                       )
+    else:
+        redit_article=ArticlePost.objects.get(id=article_id)
+        try:
+            redit_article.column=request.user.article_column.get(id=request.POST['column_id'])
+            redit_article.title=request.POST['title']
+            redit_article.body=request.POST['body']
+            redit_article.save()
+            return HttpResponse('1')
+        except:
+            return HttpResponse('2')
