@@ -53,9 +53,9 @@
                     success: function (e) {
                         if (e == 1) {
                             parent.location.reload();
-                            layer.msg("good");
+                            layer.msg("good",{icon:1});
                         } else {
-                            layer.msg("此栏目已有，请更换名称");
+                            layer.msg("此栏目已有，请更换名称",{icon:2});
                         }
                     },
                 }

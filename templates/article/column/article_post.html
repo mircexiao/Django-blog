@@ -9,7 +9,7 @@ article column
 <div style="margin-left:10px">
     <form class="form-horizontal" action="." method="post">
         <div class="row" style="margin-top:10px">
-            <div class="col-md-2 text-right">
+                <div class="col-md-2 text-right">
                 <span>标题:</span>
             </div>
             <div class="col-md-10 text-left">
@@ -17,9 +17,7 @@ article column
             </div>
         </div>
             <div class="row" style="margin-top: 10px;">
-                <div class="col-md-2 text-left">
-                    <span>栏目:</span>
-                </div>
+                <div class="col-md-2 text-left"><span>栏目:</span></div>
                 <div class="col-md-10 text-right">
                     <select id="which_column">
                         {% for column in article_columns %}
@@ -60,11 +58,11 @@ article column
                 }else{
                     layer.msg("项目名称必须填写，不能为空");
                 }
-            }
-            })
+            },
+            });
     }
 </script>
-    <script type="text/javascript" src="{% static 'editor/editormd.js/editormd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'editor/editormd.min.js' %}"></script>
     <script type="text/javascript">
     $(function(){
         var editor =editormd("editormd",{
