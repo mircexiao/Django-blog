@@ -15,8 +15,26 @@
             <p class="list-group-item-text">作者：
                 <a href="{% url 'article:author_articles' article.author.username %}">{{ article.author.username }}</a>
             </p>
+            <p class="list-group-item-text">概要：{{ article.body|slice:'70'|linebreaks }}</p>
             </div>
         {% endfor %}
+    {% include "pagintor.html" %}
+    </div>
+    <div class="col-md-4">
+    <div>
+        {% if userinfo.photo %}
+            <img src="{{ userinfo.photo|striptags }}" class="img-circle" id="my_photo" name="user_face" style="width:300px">
+        {% endif %}
+    </div>
+    <div>
+        <p>{{ user.username }}</p>
+        {% if userinfo %}
+            <p>{{ userinfo.company }}</p>
+            <p>{{ userinfo.aboutme }}</p>
+            {% else %}
+            <p>这个作者太懒了，什么也没留下</p>
+        {% endif %}
+    </div>
     </div>
     </div>
 {% endblock %}
